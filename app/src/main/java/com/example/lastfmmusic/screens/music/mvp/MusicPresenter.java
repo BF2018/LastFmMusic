@@ -3,9 +3,8 @@ package com.example.lastfmmusic.screens.music.mvp;
 import android.util.Log;
 
 import com.example.lastfmmusic.common.Constants;
-import com.example.lastfmmusic.data.Artists;
+import com.example.lastfmmusic.data.artist.Artists;
 import com.example.lastfmmusic.network.WebService;
-import com.example.lastfmmusic.screens.music.mvp.MusicContract;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -19,7 +18,7 @@ public class MusicPresenter implements MusicContract.MusicPresenter {
     MusicContract.MusicView musicView;
     WebService service;
     CompositeDisposable disposable;
-    String keyWord ="cold";
+   // String keyWord ="cold";
 
 
     public MusicPresenter(MusicContract.MusicView musicView,
@@ -30,8 +29,8 @@ public class MusicPresenter implements MusicContract.MusicPresenter {
     }
 
     @Override
-    public void getArtists() {
-           disposable.add(service.getArtist(Constants.ARTIST_SEARCH,"cold",Constants._KEY,Constants.FORMAT)
+    public void getArtists(String keyWord) {
+           disposable.add(service.getArtist(Constants.ARTIST_SEARCH,keyWord,Constants._KEY,Constants.FORMAT)
                       .subscribeOn(Schedulers.io())
                       .observeOn(AndroidSchedulers.mainThread())
                       .subscribe(new Consumer<Artists>() {

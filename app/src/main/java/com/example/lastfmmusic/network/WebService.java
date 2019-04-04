@@ -1,12 +1,10 @@
 package com.example.lastfmmusic.network;
 
 
-import com.example.lastfmmusic.data.Artists;
+import com.example.lastfmmusic.data.artist.Artists;
+import com.example.lastfmmusic.data.track.Tracks;
 
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -18,5 +16,11 @@ public interface WebService {
                               @Query("artist") String artist,
                               @Query("api_key") String apiKey,
                               @Query("format") String format);
+    @GET(".")
+    Observable <Tracks> getTracks(@Query("method") String method,
+                                  @Query("track") String artist,
+                                  @Query("api_key") String apiKey,
+                                  @Query("format") String format);
+
 
 }

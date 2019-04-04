@@ -9,8 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lastfmmusic.R;
-import com.example.lastfmmusic.data.Artist;
-import com.example.lastfmmusic.data.Artists;
+import com.example.lastfmmusic.data.artist.Artist;
+import com.example.lastfmmusic.data.artist.Artists;
+import com.example.lastfmmusic.data.artist.Image;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -20,9 +21,12 @@ import butterknife.ButterKnife;
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicAdapterViewHolder> {
 
      private Artists artists;
+     private OnSelectedArtistListener selectedArtistListener;
 
-    public MusicAdapter(Artists artists) {
+    public MusicAdapter(Artists artists,OnSelectedArtistListener selectedArtistListener) {
         this.artists = artists;
+        this.selectedArtistListener = selectedArtistListener;
+
     }
 
     @NonNull
@@ -66,10 +70,22 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicAdapter
 
                 artistName.setText(artist.getName());
 
-                Picasso.get()
-                        .load(artist.getUrl())
-                        .fit()
-                        .into(thumbnail);
+                for (Image url: artist.getImage()) {
+
+                   if(!url.getText().isEmpty())
+                    Picasso.get()
+                            .load(url.getText())
+                            .fit()
+                            .into(thumbnail);
+                  itemView.setOnClickListener(v -> {
+                      if (artist.getName()!=null){
+                          selectedArtistListener.getSelectedArtrist(artist.getName());
+                      }
+
+                  });
+                }
+
+
             }
 
 

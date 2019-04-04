@@ -1,6 +1,8 @@
 package com.example.lastfmmusic.screens.music.mvp;
 
-import com.example.lastfmmusic.data.Artists;
+import com.example.lastfmmusic.data.artist.Artists;
+
+import io.reactivex.annotations.Nullable;
 
 public interface MusicContract {
     interface MusicView {
@@ -9,7 +11,7 @@ public interface MusicContract {
     }
 
     interface MusicPresenter {
-        void getArtists();
+        void getArtists(@Nullable String artist);
         void searchAlbums();
         void clear();
     }

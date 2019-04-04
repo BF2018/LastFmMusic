@@ -1,10 +1,14 @@
 package com.example.lastfmmusic.screens.track.mvp;
 
+import com.example.lastfmmusic.data.track.Tracks;
+
 public interface TrackContract {
     interface TrackView{
-        void showTrack();
+        void showDetail(Tracks tracks);
+        void showMessage(String message);
     }
     interface TrackPresenter {
-        void getTrack();
+        void getTrack(String artistName);
+        void onStop();
     }
 }

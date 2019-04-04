@@ -1,6 +1,5 @@
-package com.example.lastfmmusic.data;
+package com.example.lastfmmusic.data.artist;
 
-import android.media.Image;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

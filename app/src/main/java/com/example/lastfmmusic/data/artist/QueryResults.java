@@ -1,4 +1,4 @@
-package com.example.lastfmmusic.data;
+package com.example.lastfmmusic.data.artist;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -58,6 +58,8 @@ public class QueryResults {
     public ArtistMatches getArtistmatches() {
         return artistmatches;
     }
+
+
 
     public void setArtistmatches(ArtistMatches artistmatches) {
         this.artistmatches = artistmatches;
