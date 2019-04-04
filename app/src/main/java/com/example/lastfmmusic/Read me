@@ -1,0 +1,8 @@
+ Points to improve
+
+ 1/ user should be able to make more queries
+ 2/ implement More unit test and instrumental testing
+ 3/ should be expanded with repository pattern for better data handling
+ 4/ improved ui layout for better user experience
+ 5/ adding pagination for easy data handling
+ 6/ more documentation for future modification
