@@ -12,7 +12,9 @@ public interface MusicContract {
 
     interface MusicPresenter {
         void getArtists(@Nullable String artist);
-        void searchAlbums();
+
+        void handleError(Throwable error);
+
         void clear();
     }
 }

@@ -23,13 +23,18 @@ import com.example.lastfmmusic.screens.track.mvp.TrackActivity;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MusicActivity extends AppCompatActivity implements MusicContract.MusicView, OnSelectedArtistListener {
 
 
     @Inject
     MusicContract.MusicPresenter musicPresenter;
 
-    private RecyclerView recyclerView;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+
     private MusicAdapter musicAdapter;
     private RecyclerView.LayoutManager manager;
 
@@ -39,32 +44,29 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.Mu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.music_layout);
-
+        ButterKnife.bind(this);
         DaggerMusicComponent.builder()
                 .appComponent(((App) getApplication()).getComponent())
                 .view(this)
                 .build()
                 .inject(this);
 
+        musicAdapter = new MusicAdapter(this);
+        manager = new GridLayoutManager(getApplicationContext(),2, GridLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.addItemDecoration(new CustomGridLayout(2,dpToPx(10),true));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(musicAdapter);
 
-
-
-
-       musicPresenter.getArtists("coldplay");
-        recyclerView = findViewById(R.id.recyclerView);
-
+        // just no to return empty view for the user
+        musicPresenter.getArtists("coldplay");
 
     }
 
     @Override
     public void showArtists(Artists artists) {
-        manager = new GridLayoutManager(getApplicationContext(),2, GridLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.addItemDecoration(new CustomGridLayout(2,dpToPx(10),true));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        musicAdapter = new MusicAdapter(artists,this);
-        recyclerView.setAdapter(musicAdapter);
 
+        musicAdapter.updateData(artists.getResults().getArtistmatches().getArtist());
 
     }
 
@@ -78,7 +80,7 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.Mu
 
                 if (!searchView.isIconified()) {
                     searchView.setIconified(true);
-                    if (query != null) {
+                    if (query != null && !query.isEmpty()) {
                         musicPresenter.getArtists(query);
                     }
                 }
@@ -89,7 +91,10 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.Mu
             @Override
             public boolean onQueryTextChange(String s) {
 
-                musicPresenter.getArtists(s);
+                if (s != null && !s.isEmpty()) {
+                    musicPresenter.getArtists(s);
+                }
+
 
                 return false;
             }
@@ -97,14 +102,7 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.Mu
         return true;
     }
 
-  /*  @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        if(Intent.ACTION_SEARCH.equals(intent.getAction())){
-            keySearch = intent.getStringExtra(SearchManager.QUERY);
-            musicPresenter.getArtists(keySearch);
-        }
-    }*/
+
 
     @Override
     public void showMessages(String message) {
@@ -119,7 +117,7 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.Mu
 
 
     @Override
-    public void getSelectedArtrist(String artistName) {
+    public void getSelectedArtist(String artistName) {
         Intent intent = new Intent(this, TrackActivity.class);
         intent.putExtra("query",artistName);
         startActivity(intent);

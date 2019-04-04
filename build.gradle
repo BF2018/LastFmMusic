@@ -22,16 +22,7 @@ allprojects {
     }
 }
 
-ext {
-    supportLibraryVersion = '28.0.0'
-    constraintLayoutVersion = '1.1.3'
-    roomVersion = '1.1.1'
-    rxVersion = '2.2.2'
-    rxAndroidVersion = '2.0.2'
-    picassoVersion = '2.71828'
-    daggerVersion = '2.17'
-    retrofitVersion = '2.4.0'
-}
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir

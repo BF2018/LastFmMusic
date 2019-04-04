@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 
 public interface WebService {
 
-    // to indicate that the url is same as base url
+    // to indicate that the url is same as base url for retofit
     @GET(".")
     Observable <Artists> getArtist(@Query("method") String method,
                               @Query("artist") String artist,

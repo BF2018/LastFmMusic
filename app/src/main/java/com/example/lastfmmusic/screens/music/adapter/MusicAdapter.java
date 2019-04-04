@@ -10,9 +10,11 @@ import android.widget.TextView;
 
 import com.example.lastfmmusic.R;
 import com.example.lastfmmusic.data.artist.Artist;
-import com.example.lastfmmusic.data.artist.Artists;
 import com.example.lastfmmusic.data.artist.Image;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,15 +22,22 @@ import butterknife.ButterKnife;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicAdapterViewHolder> {
 
-     private Artists artists;
-     private OnSelectedArtistListener selectedArtistListener;
 
-    public MusicAdapter(Artists artists,OnSelectedArtistListener selectedArtistListener) {
-        this.artists = artists;
-        this.selectedArtistListener = selectedArtistListener;
+    private static OnSelectedArtistListener selectedArtistListener;
+    private List<Artist> artists;
+
+    public MusicAdapter(OnSelectedArtistListener selectedArtistListener) {
+        artists = new ArrayList<>();
+        MusicAdapter.selectedArtistListener = selectedArtistListener;
 
     }
 
+    public void updateData(List<Artist> data) {
+
+        artists.clear();
+        artists.addAll(data);
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -41,12 +50,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicAdapter
 
     @Override
     public void onBindViewHolder(@NonNull MusicAdapterViewHolder viewHolder, int i) {
-         viewHolder.bind(artists.getResults().getArtistmatches().getArtist().get(i));
+        viewHolder.bind(artists.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return artists.getResults().getArtistmatches().getArtist().size();
+        return artists.size();
     }
 
 
@@ -56,7 +65,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicAdapter
         ImageView thumbnail;
          @BindView(R.id.artist_title)
         TextView artistName;
-         @BindView(R.id.count) TextView notDecidedYet;
 
 
 
@@ -64,7 +72,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicAdapter
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
-
 
         public void bind(Artist artist) {
             if(artist!=null) {
@@ -80,7 +87,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicAdapter
                             .into(thumbnail);
                   itemView.setOnClickListener(v -> {
                       if (artist.getName()!=null){
-                          selectedArtistListener.getSelectedArtrist(artist.getName());
+                          selectedArtistListener.getSelectedArtist(artist.getName());
                       }
 
                   });

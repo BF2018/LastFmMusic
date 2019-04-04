@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.example.lastfmmusic.R;
 import com.example.lastfmmusic.app.App;
-import com.example.lastfmmusic.data.artist.Image;
 import com.example.lastfmmusic.data.track.Track;
 import com.example.lastfmmusic.data.track.Tracks;
 import com.example.lastfmmusic.screens.track.di.DaggerTrackComponent;
@@ -27,11 +26,12 @@ public class TrackActivity extends AppCompatActivity implements TrackContract.Tr
     @Inject
     TrackContract.TrackPresenter presenter;
 
-     @BindView(R.id.song_title)
+    @BindView(R.id.song_title)
     TextView songTitile;
      @BindView(R.id.song) TextView song;
-     @BindView(R.id.track_thumbnail)
+    @BindView(R.id.track_thumbnail)
     ImageView trackPic;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +58,15 @@ public class TrackActivity extends AppCompatActivity implements TrackContract.Tr
         {
             songTitile.setText(track.getName());
             song.setText(track.getArtist());
-            Picasso.get()
-                    .load(track.getImage().get(0).getText())
-                    .fit()
-                    .into(trackPic);
+            if (track.getImage().get(2) != null) {
+                Picasso.get()
+                        .load(track.getImage().get(2).getText())
+                        .fit()
+                        .into(trackPic);
+
+            }
+
+
             
         }
         
