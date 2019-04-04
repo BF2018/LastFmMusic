@@ -29,6 +29,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicAdapter
 
     }
 
+
     @NonNull
     @Override
     public MusicAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

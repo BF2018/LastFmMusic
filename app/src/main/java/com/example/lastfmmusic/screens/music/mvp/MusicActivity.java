@@ -1,16 +1,11 @@
 package com.example.lastfmmusic.screens.music.mvp;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.TypedValue;
@@ -34,17 +29,16 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.Mu
     @Inject
     MusicContract.MusicPresenter musicPresenter;
 
-    RecyclerView recyclerView;
-    MusicAdapter musicAdapter;
-    RecyclerView.LayoutManager manager;
-    LinearLayoutManager man;
-    String keySearch;
+    private RecyclerView recyclerView;
+    private MusicAdapter musicAdapter;
+    private RecyclerView.LayoutManager manager;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music);
+        setContentView(R.layout.music_layout);
 
         DaggerMusicComponent.builder()
                 .appComponent(((App) getApplication()).getComponent())
@@ -52,16 +46,13 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.Mu
                 .build()
                 .inject(this);
 
-      initCollapsingToolbar();
+
 
 
 
        musicPresenter.getArtists("coldplay");
         recyclerView = findViewById(R.id.recyclerView);
 
-
-       /*  man = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(man);*/
 
     }
 
@@ -77,19 +68,36 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.Mu
 
     }
 
-   /* @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_option,menu);
-        // Retrieve the SearchView and plug it into SearchManager
-        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        if (searchManager != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                if (!searchView.isIconified()) {
+                    searchView.setIconified(true);
+                    if (query != null) {
+                        musicPresenter.getArtists(query);
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+
+                musicPresenter.getArtists(s);
+
+                return false;
+            }
+        });
         return true;
     }
 
-    @Override
+  /*  @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if(Intent.ACTION_SEARCH.equals(intent.getAction())){
@@ -109,34 +117,6 @@ public class MusicActivity extends AppCompatActivity implements MusicContract.Mu
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
-    private void initCollapsingToolbar() {
-        final CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(" ");
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-        appBarLayout.setExpanded(true);
-
-        // hiding & showing the title when toolbar expanded & collapsed
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                   // collapsingToolbar.setTitle(getString(R.string.app_name));
-                    isShow = true;
-
-                } else if (isShow) {
-                  //  collapsingToolbar.setTitle(" ");
-                    isShow = false;
-                }
-            }
-        });
-    }
 
     @Override
     public void getSelectedArtrist(String artistName) {
