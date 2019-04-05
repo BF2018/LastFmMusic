@@ -58,19 +58,15 @@ public class TrackActivity extends AppCompatActivity implements TrackContract.Tr
         {
             songTitile.setText(track.getName());
             song.setText(track.getArtist());
-            if (track.getImage().get(2) != null) {
+            if (track.getImage().size() > 0) {
                 Picasso.get()
-                        .load(track.getImage().get(2).getText())
+                        .load(track.getImage().get(track.getImage().size() - 1).getText())
                         .fit()
                         .into(trackPic);
 
             }
 
-
-            
         }
-        
-        
 
     }
 

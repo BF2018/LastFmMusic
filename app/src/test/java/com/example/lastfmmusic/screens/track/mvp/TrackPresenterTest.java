@@ -1,5 +1,6 @@
 package com.example.lastfmmusic.screens.track.mvp;
 
+import com.example.lastfmmusic.common.Constants;
 import com.example.lastfmmusic.data.track.Tracks;
 import com.example.lastfmmusic.network.WebService;
 
@@ -27,7 +28,6 @@ public class TrackPresenterTest {
     private String query = "track.search";
     private String track = "viva la vida";
 
-    private String api = "9a160096a54171ae4f985c3e46b55a8d";
 
     @Mock
     private WebService service;
@@ -65,7 +65,7 @@ public class TrackPresenterTest {
 
     @Test
     public void getTrack() {
-        when(service.getTracks(query, track, api, "json"))
+        when(service.getTracks(query, track, Constants.API_KEY, "json"))
                 .thenReturn(Observable.just(tracks));
         presenter.getTrack(track);
         inOrder.verify(trackView).showDetail(tracks);

@@ -1,5 +1,6 @@
 package com.example.lastfmmusic.screens.music.mvp;
 
+import com.example.lastfmmusic.common.Constants;
 import com.example.lastfmmusic.data.artist.Artists;
 import com.example.lastfmmusic.network.WebService;
 
@@ -25,7 +26,6 @@ public class MusicPresenterTest {
 
     private String query = "artist.search";
     private String artistName = "cher";
-    private String api = "9a160096a54171ae4f985c3e46b55a8d";
     private String error = "error message";
 
     @Mock
@@ -64,7 +64,7 @@ public class MusicPresenterTest {
     @Test
     public void getArtists_IsDataFetched_displayResults() {
 
-        when(service.getArtist(query, artistName, api, "json"))
+        when(service.getArtist(query, artistName, Constants.API_KEY, "json"))
                 .thenReturn(Observable.just(artists));
         presenter.getArtists(artistName);
         inOrder.verify(view).showArtists(artists);
@@ -73,7 +73,7 @@ public class MusicPresenterTest {
 
     @Test
     public void handleError_GetErrorMessage_displayMessage() {
-        when(service.getArtist(query, artistName, api, "json"))
+        when(service.getArtist(query, artistName, Constants.API_KEY, "json"))
                 .thenReturn(Observable.error(new Throwable(error)));
         presenter.getArtists(artistName);
         inOrder.verify(view).showMessages(error);

@@ -1,7 +1,6 @@
 package com.example.lastfmmusic.screens.track.di;
 
 import com.example.lastfmmusic.network.WebService;
-import com.example.lastfmmusic.screens.music.di.MusicScope;
 import com.example.lastfmmusic.screens.track.mvp.TrackContract;
 import com.example.lastfmmusic.screens.track.mvp.TrackPresenter;
 

@@ -7,7 +7,6 @@ import com.example.lastfmmusic.screens.track.mvp.TrackContract;
 
 import dagger.BindsInstance;
 import dagger.Component;
-import dagger.Module;
 
 @Component(modules = TrackModule.class,dependencies = AppComponent.class)
 @TrackScope

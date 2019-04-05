@@ -80,17 +80,20 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicAdapter
 
                 for (Image url: artist.getImage()) {
 
-                   if(!url.getText().isEmpty())
-                    Picasso.get()
-                            .load(url.getText())
-                            .fit()
-                            .into(thumbnail);
-                  itemView.setOnClickListener(v -> {
-                      if (artist.getName()!=null){
-                          selectedArtistListener.getSelectedArtist(artist.getName());
-                      }
+                    if (!url.getText().isEmpty()) {
+                        Picasso.get()
+                                .load(url.getText())
+                                .fit()
+                                .into(thumbnail);
+                        itemView.setOnClickListener(v -> {
+                            if (artist.getName() != null) {
+                                selectedArtistListener.getSelectedArtist(artist.getName());
+                            }
 
-                  });
+                        });
+
+                    }
+
                 }
 
 
